@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:algo_lab/cell.dart';
 
 class Board {
@@ -9,11 +7,19 @@ class Board {
 
   void printBoard() {
     for (List<Cell> row in cells) {
+      String s = "";
       for (Cell cell in row) {
-        stdout.write("${cell.cellType.toString()} ");
+        if (cell.cellType == CellType.white) {
+          s = '$s @ ';
+        } else if (cell.cellType == CellType.stone) {
+          s = '$s # ';
+        } else {
+          s = '$s   ';
+        }
       }
-      print("");
+      print(s);
     }
+    print("");
   }
 
   void clickCellManually(int x, int y) {
@@ -90,7 +96,7 @@ class Board {
 
     for (var row in cells) {
       for (var cell in row) {
-        hash = hash * 31 + cell.hashCode;
+        hash = hash * 31 + cell.hashCode * cells[0].length;
       }
     }
     return hash;

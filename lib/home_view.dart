@@ -21,6 +21,11 @@ class HomeView extends StatelessWidget {
     }
 
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        tooltip: "let CPU do it",
+        onPressed: () => hC.bfs(),
+        child: Icon(Icons.computer),
+      ),
       appBar: AppBar(
         backgroundColor: const Color(0xff232323),
         centerTitle: true,
@@ -44,7 +49,7 @@ class HomeView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SizedBox(
-                    height: 400,
+                    height: 300,
                     width: 420,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
@@ -59,8 +64,7 @@ class HomeView extends StatelessWidget {
                             child: GestureDetector(
                               onTap: () {
                                 hC.click(i, j);
-                                print('Clicked: ($i, $j), ${con.board.cells[i][j].cellType.toString()}');
-                                //con.board.printBoard();
+                                //print('Clicked: (${i + 1}, ${j + 1}),');
                               },
                               child: Container(
                                 width: 50,

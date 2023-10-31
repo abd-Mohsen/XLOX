@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:algo_lab/board.dart';
 import 'package:get/get.dart';
@@ -65,19 +66,23 @@ class HomeController extends GetxController {
   void click(int x, int y) {
     board.clickCellManually(x, y);
     update();
+    board.printBoard();
     if (board.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
-  Board? bfs(Board initialState) {
+  Future<Board?> bfs() async {
+    //todo: how tf ui is updating if i am not modifying 'board'!?
     Queue<Board> queue = Queue();
-    HashSet<Board> visited = HashSet();
+    Set<Board> visited = {};
 
-    queue.add(initialState);
-    visited.add(initialState);
+    queue.add(board);
+    visited.add(board);
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
+      //board = currentState;
 
+      if (currentState.isGoalState()) print("success");
       if (currentState.isGoalState()) return currentState;
 
       List<Board> possibleStates = currentState.generateStates();
@@ -88,8 +93,12 @@ class HomeController extends GetxController {
           visited.add(state);
         }
       }
+      await Future.delayed(Duration(seconds: 1));
+      print("inside while");
+      update();
     }
 
+    print("it gave up");
     return null;
   }
 }
