@@ -39,38 +39,46 @@ class HomeView extends StatelessWidget {
         builder: (con) {
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              SizedBox(
-                width: 200,
-                child: ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: hC.board.cells.length,
-                  itemBuilder: (context, i) => SizedBox(
-                    height: 20,
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 400,
+                    width: 420,
                     child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: hC.board.cells[i].length,
-                      itemBuilder: (context, j) => GestureDetector(
-                        onTap: () {
-                          hC.click(i, j);
-                          print('Clicked: ($i, $j), ${con.board.cells[i][j].cellType.toString()}');
-                          //con.board.printBoard();
-                        },
-                        child: Container(
-                          width: 20,
-                          height: 50,
-                          alignment: Alignment.center,
-                          margin: const EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            color: cellColor(hC.board.cells[i][j].cellType),
-                            borderRadius: BorderRadius.circular(5),
+                      scrollDirection: Axis.vertical,
+                      itemCount: hC.board.cells.length,
+                      itemBuilder: (context, i) => SizedBox(
+                        height: 50,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: hC.board.cells[i].length,
+                          itemBuilder: (context, j) => MouseRegion(
+                            //cursor: hC.board.cells[i][j].cellType == CellType.white ? MouseCursor.,
+                            child: GestureDetector(
+                              onTap: () {
+                                hC.click(i, j);
+                                print('Clicked: ($i, $j), ${con.board.cells[i][j].cellType.toString()}');
+                                //con.board.printBoard();
+                              },
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.all(4),
+                                decoration: BoxDecoration(
+                                  color: cellColor(hC.board.cells[i][j].cellType),
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                ],
               ),
             ],
           );

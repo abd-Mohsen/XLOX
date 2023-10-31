@@ -6,7 +6,11 @@ enum CellType {
 
 class Cell {
   CellType cellType;
-  // int x;
-  // int y;
   Cell({required this.cellType});
+  @override
+  int get hashCode => cellType.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Cell && runtimeType == other.runtimeType && cellType == other.cellType;
 }
