@@ -61,7 +61,7 @@ class HomeController extends GetxController {
     ],
   ];
 
-  late final Board board;
+  late Board board;
 
   void click(int x, int y) {
     board.clickCellManually(x, y);
@@ -70,35 +70,42 @@ class HomeController extends GetxController {
     if (board.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
-  Future<Board?> bfs() async {
+  void bfs() async {
     //todo: how tf ui is updating if i am not modifying 'board'!?
     Queue<Board> queue = Queue();
     Set<Board> visited = {};
+    int i = 0;
 
     queue.add(board);
     visited.add(board);
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
-      //board = currentState;
+      board = currentState;
 
-      if (currentState.isGoalState()) print("success");
-      if (currentState.isGoalState()) return currentState;
+      print("curr state:");
+      currentState.printBoard();
+
+      if (currentState.isGoalState()) print("success, after $i iterations");
+      if (currentState.isGoalState()) return;
 
       List<Board> possibleStates = currentState.generateStates();
 
       for (Board state in possibleStates) {
+        //print("state ${state.hashCode} generated from ${currentState.hashCode}");
+
         if (!visited.contains(state)) {
           queue.add(state);
           visited.add(state);
         }
       }
-      await Future.delayed(Duration(seconds: 1));
+
+      //await Future.delayed(Duration(seconds: 1));
       print("inside while");
       update();
+      i++;
     }
-
+    //visited.toList().forEach((element) => element.printBoard());
     print("it gave up");
-    return null;
   }
 }

@@ -32,11 +32,18 @@ class Board {
   }
 
   Board? clickCell(int x, int y) {
-    List<List<Cell>> copied = [
-      for (var row in cells) [...row]
-    ];
-    if (cells[x][y].cellType != CellType.white || !_inRange(x, y)) return null;
-    cells[x][y].cellType = CellType.black;
+    List<List<Cell>> copied = [];
+
+    for (List<Cell> row in cells) {
+      List<Cell> temp = [];
+      for (Cell cell in row) {
+        temp.add(Cell(cellType: cell.cellType));
+      }
+      copied.add(temp);
+    }
+
+    if (copied[x][y].cellType != CellType.white || !_inRange(x, y)) return null;
+    copied[x][y].cellType = CellType.black;
     _flipAdjacentCell(x - 1, y, copied);
     _flipAdjacentCell(x + 1, y, copied);
     _flipAdjacentCell(x, y - 1, copied);
@@ -59,6 +66,7 @@ class Board {
   }
 
   bool _inRange(int x, int y) => 0 <= y && y < cells[0].length && 0 <= x && x < cells.length;
+  //bool _inRange2(int x, int y, List<List<Cell>> copied) => 0 <= y && y < copied[0].length && 0 <= x && x < copied.length;
 
   bool isGoalState() {
     for (List<Cell> row in cells) {
@@ -96,7 +104,7 @@ class Board {
 
     for (var row in cells) {
       for (var cell in row) {
-        hash = hash * 31 + cell.hashCode * cells[0].length;
+        hash = hash * 31 + cell.hashCode;
       }
     }
     return hash;
