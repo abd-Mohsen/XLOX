@@ -2,7 +2,9 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:algo_lab/board.dart';
+import 'package:algo_lab/levels.dart';
 import 'package:get/get.dart';
+import 'package:stack/stack.dart';
 
 import 'cell.dart';
 
@@ -13,53 +15,7 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  List<List<Cell>> initialCells = [
-    [
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone)
-    ],
-    [
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.stone)
-    ],
-    [
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.white),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.white),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.white),
-      Cell(cellType: CellType.stone)
-    ],
-    [
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.black),
-      Cell(cellType: CellType.stone)
-    ],
-    [
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone),
-      Cell(cellType: CellType.stone)
-    ],
-  ];
+  List<List<Cell>> initialCells = nine;
 
   late Board board;
 
@@ -71,7 +27,6 @@ class HomeController extends GetxController {
   }
 
   void bfs() async {
-    //todo: how tf ui is updating if i am not modifying 'board'!?
     Queue<Board> queue = Queue();
     Set<Board> visited = {};
     int i = 0;
@@ -96,6 +51,44 @@ class HomeController extends GetxController {
 
         if (!visited.contains(state)) {
           queue.add(state);
+          visited.add(state);
+        }
+      }
+
+      //await Future.delayed(Duration(seconds: 1));
+      print("inside while");
+      update();
+      i++;
+    }
+    //visited.toList().forEach((element) => element.printBoard());
+    print("it gave up");
+  }
+
+  void dfs() async {
+    Stack<Board> stack = Stack();
+    Set<Board> visited = {};
+    int i = 0;
+
+    stack.push(board);
+    visited.add(board);
+
+    while (stack.isNotEmpty) {
+      Board currentState = stack.pop();
+      board = currentState;
+
+      print("curr state:");
+      currentState.printBoard();
+
+      if (currentState.isGoalState()) print("success, after $i iterations");
+      if (currentState.isGoalState()) return;
+
+      List<Board> possibleStates = currentState.generateStates();
+
+      for (Board state in possibleStates) {
+        //print("state ${state.hashCode} generated from ${currentState.hashCode}");
+
+        if (!visited.contains(state)) {
+          stack.push(state);
           visited.add(state);
         }
       }

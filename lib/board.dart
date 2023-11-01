@@ -100,11 +100,11 @@ class Board {
 
   @override
   int get hashCode {
-    int hash = cells.length;
+    int hash = cells.length * cells[0].length;
 
-    for (var row in cells) {
-      for (var cell in row) {
-        hash = hash * 31 + cell.hashCode;
+    for (int i = 0; i < cells.length; i++) {
+      for (int j = 0; j < cells[i].length; j++) {
+        hash = hash * 17 + cells[i][j].hashCode * 31 + i * 13 + j;
       }
     }
     return hash;

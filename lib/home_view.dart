@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         tooltip: "let CPU do it",
-        onPressed: () => hC.bfs(),
+        onPressed: () => hC.dfs(),
         child: Icon(Icons.computer),
       ),
       appBar: AppBar(
@@ -55,7 +55,7 @@ class HomeView extends StatelessWidget {
                       scrollDirection: Axis.vertical,
                       itemCount: hC.board.cells.length,
                       itemBuilder: (context, i) => SizedBox(
-                        height: 50,
+                        height: 40,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: hC.board.cells[i].length,
@@ -67,7 +67,7 @@ class HomeView extends StatelessWidget {
                                 //print('Clicked: (${i + 1}, ${j + 1}),');
                               },
                               child: Container(
-                                width: 50,
+                                width: 40,
                                 height: 50,
                                 alignment: Alignment.center,
                                 margin: const EdgeInsets.all(4),
