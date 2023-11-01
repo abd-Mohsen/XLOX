@@ -50,7 +50,7 @@ class HomeView extends StatelessWidget {
                 children: [
                   SizedBox(
                     height: 300,
-                    width: 420,
+                    width: 350,
                     child: ListView.builder(
                       scrollDirection: Axis.vertical,
                       itemCount: hC.board.cells.length,
@@ -68,7 +68,7 @@ class HomeView extends StatelessWidget {
                               },
                               child: Container(
                                 width: 40,
-                                height: 50,
+                                height: 40,
                                 alignment: Alignment.center,
                                 margin: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(

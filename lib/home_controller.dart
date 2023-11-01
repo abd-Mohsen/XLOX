@@ -1,5 +1,4 @@
 import 'dart:collection';
-import 'dart:io';
 
 import 'package:algo_lab/board.dart';
 import 'package:algo_lab/levels.dart';
@@ -56,7 +55,6 @@ class HomeController extends GetxController {
       }
 
       //await Future.delayed(Duration(seconds: 1));
-      print("inside while");
       update();
       i++;
     }
@@ -94,7 +92,6 @@ class HomeController extends GetxController {
       }
 
       //await Future.delayed(Duration(seconds: 1));
-      print("inside while");
       update();
       i++;
     }
