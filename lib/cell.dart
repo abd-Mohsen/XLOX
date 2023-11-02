@@ -7,6 +7,8 @@ enum CellType {
 class Cell {
   CellType cellType;
   Cell({required this.cellType});
+
+  // every cell of the same type must have the same hash
   @override
   int get hashCode => cellType.hashCode;
 

@@ -8,16 +8,23 @@ import 'package:stack/stack.dart';
 import 'cell.dart';
 
 class HomeController extends GetxController {
+  List<List<Cell>> selectedLevel = seven; // choose the level (from levels.dart)
+  List<List<Cell>> initialCells = getLevel(seven); // make a copy (to not edit the original level matrix)
+  late Board board; // current board rendered on the page
+
+  // its like the constructor of this class, being called after the page "home view" opens
   @override
   void onInit() {
     board = Board(cells: initialCells);
     super.onInit();
   }
 
-  List<List<Cell>> initialCells = nine;
+  void refreshLevel() {
+    board = Board(cells: getLevel(selectedLevel));
+    update();
+  }
 
-  late Board board;
-
+  // to update ui after user click
   void click(int x, int y) {
     board.clickCellManually(x, y);
     update();
@@ -25,24 +32,26 @@ class HomeController extends GetxController {
     if (board.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
-  void bfs() async {
+  void bfs() {
     Queue<Board> queue = Queue();
     Set<Board> visited = {};
-    int i = 0;
+    int i = 0; // counter
 
     queue.add(board); //board is initial state
     visited.add(board);
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
-      board = currentState; // to update ui
+      board = currentState; // to update ui at every iteration
 
       print("curr state:");
       currentState.printBoard();
 
-      //if all cells are white, return
-      if (currentState.isGoalState()) print("success, after $i iterations");
-      if (currentState.isGoalState()) return;
+      //if all white cells are eliminated, return
+      if (currentState.isGoalState()) {
+        print("success, after $i iterations");
+        return;
+      }
 
       // generate all possible boards (states) from current state
       List<Board> possibleStates = currentState.generateStates();
@@ -59,7 +68,7 @@ class HomeController extends GetxController {
     print("it gave up");
   }
 
-  void dfs() async {
+  void dfs() {
     Stack<Board> stack = Stack();
     Set<Board> visited = {};
     int i = 0;
@@ -74,8 +83,10 @@ class HomeController extends GetxController {
       print("curr state:");
       currentState.printBoard();
 
-      if (currentState.isGoalState()) print("success, after $i iterations");
-      if (currentState.isGoalState()) return;
+      if (currentState.isGoalState()) {
+        print("success, after $i iterations");
+        return;
+      }
 
       List<Board> possibleStates = currentState.generateStates();
 
@@ -87,12 +98,9 @@ class HomeController extends GetxController {
           visited.add(state);
         }
       }
-
-      //await Future.delayed(Duration(seconds: 1));
       update();
       i++;
     }
-    //visited.toList().forEach((element) => element.printBoard());
     print("it gave up");
   }
 }

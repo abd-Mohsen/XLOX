@@ -5,6 +5,7 @@ class Board {
 
   Board({required this.cells});
 
+  // print current state
   void printBoard() {
     for (List<Cell> row in cells) {
       String s = "";
@@ -22,16 +23,8 @@ class Board {
     print("");
   }
 
-  void clickCellManually(int x, int y) {
-    if (cells[x][y].cellType != CellType.white || !_inRange(x, y)) return;
-    cells[x][y].cellType = CellType.black;
-    _flipAdjacentCellManually(x - 1, y);
-    _flipAdjacentCellManually(x + 1, y);
-    _flipAdjacentCellManually(x, y - 1);
-    _flipAdjacentCellManually(x, y + 1);
-  }
-
-  Board? clickCell(int x, int y) {
+  // returns a new state from the current state after clicking a white cell
+  Board? _clickCell(int x, int y) {
     List<List<Cell>> copied = [];
 
     for (List<Cell> row in cells) {
@@ -51,6 +44,7 @@ class Board {
     return Board(cells: copied);
   }
 
+  // helper method to flip all 4 adjacent cells (of the new state)
   void _flipAdjacentCell(int x, int y, List<List<Cell>> copied) {
     if (copied[x][y].cellType == CellType.stone || !_inRange(x, y)) return;
     copied[x][y].cellType == CellType.white
@@ -58,6 +52,17 @@ class Board {
         : copied[x][y].cellType = CellType.white;
   }
 
+  // edit the current state by letting user click on a white cell
+  void clickCellManually(int x, int y) {
+    if (cells[x][y].cellType != CellType.white || !_inRange(x, y)) return;
+    cells[x][y].cellType = CellType.black;
+    _flipAdjacentCellManually(x - 1, y);
+    _flipAdjacentCellManually(x + 1, y);
+    _flipAdjacentCellManually(x, y - 1);
+    _flipAdjacentCellManually(x, y + 1);
+  }
+
+  // helper method to flip all 4 adjacent cells (of the current state)
   void _flipAdjacentCellManually(int x, int y) {
     if (cells[x][y].cellType == CellType.stone || !_inRange(x, y)) return;
     cells[x][y].cellType == CellType.white
@@ -66,8 +71,8 @@ class Board {
   }
 
   bool _inRange(int x, int y) => 0 <= y && y < cells[0].length && 0 <= x && x < cells.length;
-  //bool _inRange2(int x, int y, List<List<Cell>> copied) => 0 <= y && y < copied[0].length && 0 <= x && x < copied.length;
 
+  // if we reached our goal (no white cells)
   bool isGoalState() {
     for (List<Cell> row in cells) {
       for (Cell cell in row) {
@@ -77,13 +82,14 @@ class Board {
     return true;
   }
 
+  // generate all possible states from current states (by calling _clickCell method on each white cell)
   List<Board> generateStates() {
     List<Board> possibleBoards = [];
 
     for (int i = 0; i < cells.length; i++) {
       for (int j = 0; j < cells[i].length; j++) {
         if (cells[i][j].cellType == CellType.white) {
-          Board? newBoard = clickCell(i, j);
+          Board? newBoard = _clickCell(i, j);
           if (newBoard != null) possibleBoards.add(newBoard);
         }
       }
@@ -92,12 +98,7 @@ class Board {
     return possibleBoards;
   }
 
-  List<List<CellType>> getCellTypeMatrix() {
-    return cells.map((row) {
-      return row.map((cell) => cell.cellType).toList();
-    }).toList();
-  }
-
+  // edited hashcode of board instance to insure that every board with similar cells have the same hash
   @override
   int get hashCode {
     int hash = cells.length * cells[0].length;
@@ -110,6 +111,7 @@ class Board {
     return hash;
   }
 
+  // added a condition for 2 boards to be the same, to have the same reference, or to have the same cells matrix
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is Board && runtimeType == other.runtimeType && _deepEquals(cells, other.cells);

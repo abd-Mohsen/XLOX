@@ -1,10 +1,29 @@
 import 'package:algo_lab/cell.dart';
 import 'package:algo_lab/home_controller.dart';
+import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
   const HomeView({super.key});
+
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin {
+  late Animation<double> _animation;
+  late AnimationController _animationController;
+
+  @override
+  void initState() {
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 260));
+
+    final curvedAnimation = CurvedAnimation(curve: Curves.easeInOut, parent: _animationController);
+    _animation = Tween<double>(begin: 0, end: 1).animate(curvedAnimation);
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,10 +40,35 @@ class HomeView extends StatelessWidget {
     }
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        tooltip: "let CPU do it",
-        onPressed: () => hC.bfs(),
-        child: Icon(Icons.computer),
+      floatingActionButton: FloatingActionBubble(
+        items: <Bubble>[
+          Bubble(
+            title: "DFS",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.search,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              hC.dfs();
+            },
+          ),
+          Bubble(
+            title: "BFS",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.search_rounded,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              hC.bfs();
+            },
+          ),
+        ],
+        onPress: () =>
+            _animationController.isCompleted ? _animationController.reverse() : _animationController.forward(),
+        iconColor: Colors.white,
+        iconData: Icons.computer,
+        backGroundColor: Colors.greenAccent,
+        animation: _animation,
       ),
       appBar: AppBar(
         backgroundColor: const Color(0xff232323),
@@ -38,6 +82,14 @@ class HomeView extends StatelessWidget {
             color: Colors.white,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              hC.refreshLevel();
+            },
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
       ),
       backgroundColor: const Color(0xff121212),
       body: GetBuilder<HomeController>(
@@ -60,7 +112,9 @@ class HomeView extends StatelessWidget {
                           scrollDirection: Axis.horizontal,
                           itemCount: hC.board.cells[i].length,
                           itemBuilder: (context, j) => MouseRegion(
-                            //cursor: hC.board.cells[i][j].cellType == CellType.white ? MouseCursor.,
+                            cursor: hC.board.cells[i][j].cellType == CellType.white
+                                ? SystemMouseCursors.click
+                                : SystemMouseCursors.basic,
                             child: GestureDetector(
                               onTap: () {
                                 hC.click(i, j);

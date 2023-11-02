@@ -308,3 +308,16 @@ List<List<Cell>> twelve = [
     Cell(cellType: CellType.stone)
   ],
 ];
+
+List<List<Cell>> getLevel(List<List<Cell>> level) {
+  List<List<Cell>> copied = [];
+
+  for (List<Cell> row in level) {
+    List<Cell> temp = [];
+    for (Cell cell in row) {
+      temp.add(Cell(cellType: cell.cellType));
+    }
+    copied.add(temp);
+  }
+  return copied;
+}
