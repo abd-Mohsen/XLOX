@@ -30,35 +30,32 @@ class HomeController extends GetxController {
     Set<Board> visited = {};
     int i = 0;
 
-    queue.add(board);
+    queue.add(board); //board is initial state
     visited.add(board);
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
-      board = currentState;
+      board = currentState; // to update ui
 
       print("curr state:");
       currentState.printBoard();
 
+      //if all cells are white, return
       if (currentState.isGoalState()) print("success, after $i iterations");
       if (currentState.isGoalState()) return;
 
+      // generate all possible boards (states) from current state
       List<Board> possibleStates = currentState.generateStates();
 
       for (Board state in possibleStates) {
-        //print("state ${state.hashCode} generated from ${currentState.hashCode}");
-
         if (!visited.contains(state)) {
           queue.add(state);
           visited.add(state);
         }
       }
-
-      //await Future.delayed(Duration(seconds: 1));
       update();
       i++;
     }
-    //visited.toList().forEach((element) => element.printBoard());
     print("it gave up");
   }
 

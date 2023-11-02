@@ -23,7 +23,7 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         tooltip: "let CPU do it",
-        onPressed: () => hC.dfs(),
+        onPressed: () => hC.bfs(),
         child: Icon(Icons.computer),
       ),
       appBar: AppBar(
