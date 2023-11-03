@@ -41,7 +41,7 @@ class HomeController extends GetxController {
     if (currentBoard.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
-  void bfs() {
+  void bfs() async {
     Queue<Board> queue = Queue();
     Set<Board> visited = {};
     int i = 0; // counter
@@ -51,18 +51,18 @@ class HomeController extends GetxController {
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
-      currentBoard = currentState; // to update ui at every iteration
 
-      print("curr state:");
+      print("bfs running, current state:");
       currentState.printBoard();
 
-      //if all white cells are eliminated, return
+      //if all white cells are eliminated, show the result and return
       if (currentState.isGoalState()) {
-        print("success, after $i iterations");
+        print("success, after $i iterations, depth = ${currentState.depth}");
+        await createPath(currentState);
+        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
         return;
       }
 
-      // generate all possible boards (states) from current state
       List<Board> possibleStates = currentState.generateStates();
 
       for (Board state in possibleStates) {
@@ -71,13 +71,12 @@ class HomeController extends GetxController {
           visited.add(state);
         }
       }
-      update();
       i++;
     }
-    print("it gave up");
+    print("this shouldn't print");
   }
 
-  void dfs() {
+  void dfs() async {
     Stack<Board> stack = Stack();
     Set<Board> visited = {};
     int i = 0;
@@ -87,15 +86,14 @@ class HomeController extends GetxController {
 
     while (stack.isNotEmpty) {
       Board currentState = stack.pop();
-      currentBoard = currentState;
 
-      print("curr state:");
+      print("running dfs, current state:");
       currentState.printBoard();
 
       if (currentState.isGoalState()) {
         print("success, after $i iterations, depth = ${currentState.depth}");
+        await createPath(currentState);
         Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
-        createPath(currentState);
         return;
       }
 
@@ -107,13 +105,12 @@ class HomeController extends GetxController {
           visited.add(state);
         }
       }
-      update();
       i++;
     }
-    print("it gave up");
+    print("this shouldn't print");
   }
 
-  List<Board> createPath(Board board) {
+  Future<List<Board>> createPath(Board board) async {
     List<Board> path = [];
     Board? curr = board;
 
@@ -126,6 +123,9 @@ class HomeController extends GetxController {
     for (int i = 0; i < res.length; i++) {
       print(i);
       res[i].printBoard();
+      await Future.delayed(Duration(milliseconds: 400));
+      currentBoard = res[i];
+      update();
     }
     return res;
   }
