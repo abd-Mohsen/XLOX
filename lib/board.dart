@@ -1,18 +1,18 @@
 import 'package:algo_lab/cell.dart';
 
 class Board {
-  List<List<Cell>> cells;
+  List<List<String>> cells;
 
   Board({required this.cells});
 
   // print current state
   void printBoard() {
-    for (List<Cell> row in cells) {
+    for (List<String> row in cells) {
       String s = "";
-      for (Cell cell in row) {
-        if (cell.cellType == CellType.white) {
+      for (String cell in row) {
+        if (cell == '@') {
           s = '$s @ ';
-        } else if (cell.cellType == CellType.stone) {
+        } else if (cell == '#') {
           s = '$s # ';
         } else {
           s = '$s   ';
@@ -25,18 +25,20 @@ class Board {
 
   // returns a new state from the current state after clicking a white cell
   Board? _clickCell(int x, int y) {
-    List<List<Cell>> copied = [];
+    List<List<String>> copied = [];
 
-    for (List<Cell> row in cells) {
-      List<Cell> temp = [];
-      for (Cell cell in row) {
-        temp.add(Cell(cellType: cell.cellType));
+    for (List<String> row in cells) {
+      List<String> temp = [];
+      for (String cell in row) {
+        temp.add(cell);
+
+        /// strings are primitive ?
       }
       copied.add(temp);
     }
 
-    if (copied[x][y].cellType != CellType.white || !_inRange(x, y)) return null;
-    copied[x][y].cellType = CellType.black;
+    if (copied[x][y] != '@' || !_inRange(x, y)) return null;
+    copied[x][y] = ' ';
     _flipAdjacentCell(x - 1, y, copied);
     _flipAdjacentCell(x + 1, y, copied);
     _flipAdjacentCell(x, y - 1, copied);
@@ -45,17 +47,15 @@ class Board {
   }
 
   // helper method to flip all 4 adjacent cells (of the new state)
-  void _flipAdjacentCell(int x, int y, List<List<Cell>> copied) {
-    if (copied[x][y].cellType == CellType.stone || !_inRange(x, y)) return;
-    copied[x][y].cellType == CellType.white
-        ? copied[x][y].cellType = CellType.black
-        : copied[x][y].cellType = CellType.white;
+  void _flipAdjacentCell(int x, int y, List<List<String>> copied) {
+    if (copied[x][y] == '#' || !_inRange(x, y)) return;
+    copied[x][y] == '@' ? copied[x][y] = ' ' : copied[x][y] = '@';
   }
 
   // edit the current state by letting user click on a white cell
   void clickCellManually(int x, int y) {
-    if (cells[x][y].cellType != CellType.white || !_inRange(x, y)) return;
-    cells[x][y].cellType = CellType.black;
+    if (cells[x][y] != '@' || !_inRange(x, y)) return;
+    cells[x][y] = ' ';
     _flipAdjacentCellManually(x - 1, y);
     _flipAdjacentCellManually(x + 1, y);
     _flipAdjacentCellManually(x, y - 1);
@@ -64,19 +64,17 @@ class Board {
 
   // helper method to flip all 4 adjacent cells (of the current state)
   void _flipAdjacentCellManually(int x, int y) {
-    if (cells[x][y].cellType == CellType.stone || !_inRange(x, y)) return;
-    cells[x][y].cellType == CellType.white
-        ? cells[x][y].cellType = CellType.black
-        : cells[x][y].cellType = CellType.white;
+    if (cells[x][y] == '#' || !_inRange(x, y)) return;
+    cells[x][y] == '@' ? cells[x][y] = ' ' : cells[x][y] = '@';
   }
 
   bool _inRange(int x, int y) => 0 <= y && y < cells[0].length && 0 <= x && x < cells.length;
 
   // if we reached our goal (no white cells)
   bool isGoalState() {
-    for (List<Cell> row in cells) {
-      for (Cell cell in row) {
-        if (cell.cellType == CellType.white) return false;
+    for (List<String> row in cells) {
+      for (String cell in row) {
+        if (cell == '@') return false;
       }
     }
     return true;
@@ -88,7 +86,7 @@ class Board {
 
     for (int i = 0; i < cells.length; i++) {
       for (int j = 0; j < cells[i].length; j++) {
-        if (cells[i][j].cellType == CellType.white) {
+        if (cells[i][j] == '@') {
           Board? newBoard = _clickCell(i, j);
           if (newBoard != null) possibleBoards.add(newBoard);
         }
@@ -116,7 +114,7 @@ class Board {
   bool operator ==(Object other) =>
       identical(this, other) || other is Board && runtimeType == other.runtimeType && _deepEquals(cells, other.cells);
 
-  bool _deepEquals(List<List<Cell>> a, List<List<Cell>> b) {
+  bool _deepEquals(List<List<String>> a, List<List<String>> b) {
     if (a.length != b.length) return false;
 
     for (int i = 0; i < a.length; i++) {

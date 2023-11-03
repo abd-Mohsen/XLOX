@@ -29,10 +29,10 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
   Widget build(BuildContext context) {
     HomeController hC = Get.put(HomeController());
 
-    Color cellColor(CellType cellType) {
-      if (cellType == CellType.white) {
+    Color cellColor(String cell) {
+      if (cell == '@') {
         return Colors.white;
-      } else if (cellType == CellType.black) {
+      } else if (cell == ' ') {
         return Colors.transparent;
       } else {
         return Colors.brown;
@@ -112,9 +112,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                           scrollDirection: Axis.horizontal,
                           itemCount: hC.board.cells[i].length,
                           itemBuilder: (context, j) => MouseRegion(
-                            cursor: hC.board.cells[i][j].cellType == CellType.white
-                                ? SystemMouseCursors.click
-                                : SystemMouseCursors.basic,
+                            cursor: hC.board.cells[i][j] == '@' ? SystemMouseCursors.click : SystemMouseCursors.basic,
                             child: GestureDetector(
                               onTap: () {
                                 hC.click(i, j);
@@ -126,7 +124,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                                 alignment: Alignment.center,
                                 margin: const EdgeInsets.all(4),
                                 decoration: BoxDecoration(
-                                  color: cellColor(hC.board.cells[i][j].cellType),
+                                  color: cellColor(hC.board.cells[i][j]),
                                   borderRadius: BorderRadius.circular(5),
                                 ),
                               ),

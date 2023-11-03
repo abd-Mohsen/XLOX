@@ -8,14 +8,14 @@ import 'package:stack/stack.dart';
 import 'cell.dart';
 
 class HomeController extends GetxController {
-  List<List<Cell>> selectedLevel = seven; // choose the level (from levels.dart)
-  List<List<Cell>> initialCells = getLevel(seven); // make a copy (to not edit the original level matrix)
+  List<List<String>> selectedLevel = nine; // choose the level (from levels.dart)
+
   late Board board; // current board rendered on the page
 
   // its like the constructor of this class, being called after the page "home view" opens
   @override
   void onInit() {
-    board = Board(cells: initialCells);
+    board = Board(cells: getLevel(selectedLevel));
     super.onInit();
   }
 
@@ -72,6 +72,7 @@ class HomeController extends GetxController {
     Stack<Board> stack = Stack();
     Set<Board> visited = {};
     int i = 0;
+    int j = 0;
 
     stack.push(board);
     visited.add(board);
@@ -84,7 +85,7 @@ class HomeController extends GetxController {
       currentState.printBoard();
 
       if (currentState.isGoalState()) {
-        print("success, after $i iterations");
+        print("success, after $i iterations, j = $j");
         return;
       }
 
@@ -96,6 +97,7 @@ class HomeController extends GetxController {
         if (!visited.contains(state)) {
           stack.push(state);
           visited.add(state);
+          j++;
         }
       }
       update();
