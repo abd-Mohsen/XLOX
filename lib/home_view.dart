@@ -1,8 +1,9 @@
-import 'package:algo_lab/cell.dart';
 import 'package:algo_lab/home_controller.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'levels.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -83,9 +84,45 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
           ),
         ),
         actions: [
+          PopupMenuButton(
+            shape: RoundedRectangleBorder(
+              //side: const BorderSide(width: 0.5),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            tooltip: "choose level",
+            icon: Icon(Icons.leaderboard),
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 1"),
+                  onTap: () {
+                    hC.selectLevel(one);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 2"),
+                  onTap: () {
+                    hC.selectLevel(two);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 3"),
+                  onTap: () {
+                    hC.selectLevel(three);
+                  },
+                ),
+              ),
+            ],
+          ),
           IconButton(
+            tooltip: "restart level",
             onPressed: () {
-              hC.refreshLevel();
+              hC.restartLevel();
             },
             icon: const Icon(Icons.refresh),
           ),
@@ -97,35 +134,38 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
           return Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 300,
-                    width: 350,
-                    child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: hC.board.cells.length,
-                      itemBuilder: (context, i) => SizedBox(
-                        height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: hC.board.cells[i].length,
-                          itemBuilder: (context, j) => MouseRegion(
-                            cursor: hC.board.cells[i][j] == '@' ? SystemMouseCursors.click : SystemMouseCursors.basic,
-                            child: GestureDetector(
-                              onTap: () {
-                                hC.click(i, j);
-                                //print('Clicked: (${i + 1}, ${j + 1}),');
-                              },
-                              child: Container(
-                                width: 40,
-                                height: 40,
-                                alignment: Alignment.center,
-                                margin: const EdgeInsets.all(4),
-                                decoration: BoxDecoration(
-                                  color: cellColor(hC.board.cells[i][j]),
-                                  borderRadius: BorderRadius.circular(5),
+              Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 300,
+                      width: 240,
+                      child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: hC.currentBoard.cells.length,
+                        itemBuilder: (context, i) => SizedBox(
+                          height: 40,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: hC.currentBoard.cells[i].length,
+                            itemBuilder: (context, j) => MouseRegion(
+                              cursor: hC.currentBoard.cells[i][j] == '@'
+                                  ? SystemMouseCursors.click
+                                  : SystemMouseCursors.basic,
+                              child: GestureDetector(
+                                onTap: () {
+                                  hC.click(i, j);
+                                },
+                                child: Container(
+                                  width: 40,
+                                  height: 40,
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.all(4),
+                                  decoration: BoxDecoration(
+                                    color: cellColor(hC.currentBoard.cells[i][j]),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
                                 ),
                               ),
                             ),
@@ -133,8 +173,8 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ],
           );

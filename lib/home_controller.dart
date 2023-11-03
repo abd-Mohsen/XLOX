@@ -5,31 +5,40 @@ import 'package:algo_lab/levels.dart';
 import 'package:get/get.dart';
 import 'package:stack/stack.dart';
 
-import 'cell.dart';
-
 class HomeController extends GetxController {
-  List<List<String>> selectedLevel = nine; // choose the level (from levels.dart)
+  List<List<String>> selectedLevel = one;
 
-  late Board board; // current board rendered on the page
+  late Board currentBoard; // current board rendered on the page
 
   // its like the constructor of this class, being called after the page "home view" opens
   @override
   void onInit() {
-    board = Board(cells: getLevel(selectedLevel));
+    currentBoard = Board(
+      cells: getLevel(selectedLevel),
+      depth: 1,
+    );
     super.onInit();
   }
 
-  void refreshLevel() {
-    board = Board(cells: getLevel(selectedLevel));
+  void restartLevel() {
+    currentBoard = Board(
+      cells: getLevel(selectedLevel),
+      depth: 1,
+    );
     update();
   }
 
-  // to update ui after user click
+  void selectLevel(List<List<String>> level) {
+    selectedLevel = level;
+    restartLevel();
+  }
+
+  // to update ui after user clicks
   void click(int x, int y) {
-    board.clickCellManually(x, y);
+    currentBoard.clickCellManually(x, y);
     update();
-    board.printBoard();
-    if (board.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
+    currentBoard.printBoard();
+    if (currentBoard.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
   void bfs() {
@@ -37,12 +46,12 @@ class HomeController extends GetxController {
     Set<Board> visited = {};
     int i = 0; // counter
 
-    queue.add(board); //board is initial state
-    visited.add(board);
+    queue.add(currentBoard); //board is initial state
+    visited.add(currentBoard);
 
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
-      board = currentState; // to update ui at every iteration
+      currentBoard = currentState; // to update ui at every iteration
 
       print("curr state:");
       currentState.printBoard();
@@ -74,12 +83,12 @@ class HomeController extends GetxController {
     int i = 0;
     int j = 0;
 
-    stack.push(board);
-    visited.add(board);
+    stack.push(currentBoard);
+    visited.add(currentBoard);
 
     while (stack.isNotEmpty) {
       Board currentState = stack.pop();
-      board = currentState;
+      currentBoard = currentState;
 
       print("curr state:");
       currentState.printBoard();

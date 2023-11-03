@@ -1,43 +1,29 @@
-import 'cell.dart';
+List<List<String>> one = [
+  ["#", "#", "#", "#", "#"],
+  ["#", " ", " ", " ", "#"],
+  ["#", " ", "@", " ", "#"],
+  ["#", " ", " ", " ", "#"],
+  ["#", "#", "#", "#", "#"],
+];
 
-// List<List<String>> one = [
-//   [
-//     "#",
-//     "#",
-//     "#",
-//     "#",
-//     "#",
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//   ],
-// ];
-//
+List<List<String>> two = [
+  ["#", "#", "#", "#", "#"],
+  ["#", " ", "#", " ", "#"],
+  ["#", " ", "@", " ", "#"],
+  ["#", " ", "#", " ", "#"],
+  ["#", "#", "#", "#", "#"],
+];
+
+List<List<String>> three = [
+  ["#", "#", "#"],
+  ["#", "@", "#"],
+  ["#", " ", "#"],
+  ["#", "@", "#"],
+  ["#", " ", "#"],
+  ["#", "@", "#"],
+  ["#", "#", "#"],
+];
+
 // List<List<Cell>> six = [
 //   [
 //     Cell(cellType: CellType.stone),
