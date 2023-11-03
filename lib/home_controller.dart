@@ -15,7 +15,7 @@ class HomeController extends GetxController {
   void onInit() {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
-      depth: 1,
+      depth: 0,
     );
     super.onInit();
   }
@@ -23,7 +23,7 @@ class HomeController extends GetxController {
   void restartLevel() {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
-      depth: 1,
+      depth: 0,
     );
     update();
   }
@@ -81,7 +81,6 @@ class HomeController extends GetxController {
     Stack<Board> stack = Stack();
     Set<Board> visited = {};
     int i = 0;
-    int j = 0;
 
     stack.push(currentBoard);
     visited.add(currentBoard);
@@ -94,24 +93,40 @@ class HomeController extends GetxController {
       currentState.printBoard();
 
       if (currentState.isGoalState()) {
-        print("success, after $i iterations, j = $j");
+        print("success, after $i iterations, depth = ${currentState.depth}");
+        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
+        createPath(currentState);
         return;
       }
 
       List<Board> possibleStates = currentState.generateStates();
 
       for (Board state in possibleStates) {
-        //print("state ${state.hashCode} generated from ${currentState.hashCode}");
-
         if (!visited.contains(state)) {
           stack.push(state);
           visited.add(state);
-          j++;
         }
       }
       update();
       i++;
     }
     print("it gave up");
+  }
+
+  List<Board> createPath(Board board) {
+    List<Board> path = [];
+    Board? curr = board;
+
+    while (curr != null) {
+      path.add(curr);
+      curr = curr.parent;
+    }
+    List<Board> res = path.reversed.toList();
+
+    for (int i = 0; i < res.length; i++) {
+      print(i);
+      res[i].printBoard();
+    }
+    return res;
   }
 }
