@@ -33,7 +33,7 @@ class HomeController extends GetxController {
     restartLevel();
   }
 
-  // to update ui after user clicks
+  // to update ui when user clicks
   void click(int x, int y) {
     currentBoard.clickCellManually(x, y);
     update();
@@ -57,7 +57,7 @@ class HomeController extends GetxController {
 
       //if all white cells are eliminated, show the result and return
       if (currentState.isGoalState()) {
-        print("success, after $i iterations, depth = ${currentState.depth}");
+        print("success, after $i states (num of visits), depth = ${currentState.depth}");
         await createPath(currentState);
         Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
         return;
@@ -91,9 +91,10 @@ class HomeController extends GetxController {
       currentState.printBoard();
 
       if (currentState.isGoalState()) {
-        print("success, after $i iterations, depth = ${currentState.depth}");
+        print("success, after $i states (num of visits), depth = ${currentState.depth}");
         await createPath(currentState);
-        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
+        Get.defaultDialog(
+            title: "success", middleText: "after $i states (num of visits), depth = ${currentState.depth}");
         return;
       }
 
