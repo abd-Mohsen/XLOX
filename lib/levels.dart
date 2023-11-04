@@ -24,53 +24,13 @@ List<List<String>> three = [
   ["#", "#", "#"],
 ];
 
-// List<List<Cell>> six = [
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-// ];
+List<List<String>> six = [
+  ['#', '#', '#', '#', '#', '#', '#'],
+  ['#', ' ', ' ', ' ', ' ', ' ', '#'],
+  ['#', '@', '#', '@', '#', '@', '#'],
+  ['#', ' ', ' ', ' ', ' ', ' ', '#'],
+  ['#', '#', '#', '#', '#', '#', '#'],
+];
 
 List<List<String>> seven = [
   ['#', '#', '#', '#', '#'],
@@ -92,110 +52,22 @@ List<List<String>> nine = [
   [' ', '#', '#', '#', '#', '#', ' '],
 ];
 
-// List<List<Cell>> ten = [
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-// ];
-//
-// List<List<Cell>> twelve = [
-//   [
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.black),
-//     Cell(cellType: CellType.white),
-//     Cell(cellType: CellType.stone)
-//   ],
-//   [
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone),
-//     Cell(cellType: CellType.stone)
-//   ],
-// ];
+List<List<String>> ten = [
+  ['#', '#', '#', '#', '#', '#', '#'],
+  ['#', ' ', ' ', '@', ' ', ' ', '#'],
+  ['#', ' ', ' ', '@', ' ', ' ', '#'],
+  ['#', '#', '#', '#', '#', '#', '#'],
+];
+
+List<List<String>> twelve = [
+  [' ', '#', '#', '#', '#', '#', ' '],
+  ['#', '#', ' ', '#', ' ', '#', '#'],
+  ['#', '@', ' ', '#', ' ', '@', '#'],
+  ['#', '#', ' ', '#', ' ', '#', '#'],
+  ['#', ' ', ' ', '#', ' ', ' ', '#'],
+  ['#', '@', ' ', '#', ' ', '@', '#'],
+  ['#', '#', '#', '#', '#', '#', '#'],
+];
 
 List<List<String>> getLevel(List<List<String>> level) {
   List<List<String>> copied = [];

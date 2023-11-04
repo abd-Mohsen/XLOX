@@ -1,7 +1,7 @@
 class Board {
   List<List<String>> cells;
   Board? parent;
-  int? cost;
+  int cost = 0;
   int depth;
 
   Board({required this.cells, this.parent, required this.depth});

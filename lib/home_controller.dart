@@ -2,6 +2,7 @@ import 'dart:collection';
 
 import 'package:algo_lab/board.dart';
 import 'package:algo_lab/levels.dart';
+import 'package:collection/collection.dart';
 import 'package:get/get.dart';
 import 'package:stack/stack.dart';
 
@@ -39,6 +40,41 @@ class HomeController extends GetxController {
     update();
     currentBoard.printBoard();
     if (currentBoard.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
+  }
+
+  void aStar() async {
+    PriorityQueue<Board> queue = PriorityQueue((a, b) => b.cost.compareTo(a.cost));
+    Set<Board> visited = {};
+    int i = 0; // counter
+
+    queue.add(currentBoard); //board is initial state
+    visited.add(currentBoard);
+
+    while (queue.isNotEmpty) {
+      Board currentState = queue.removeFirst();
+
+      print("A* running, current state:");
+      currentState.printBoard();
+
+      //if all white cells are eliminated, show the result and return
+      if (currentState.isGoalState()) {
+        print("success, after $i states (num of visits), depth = ${currentState.depth}");
+        await createPath(currentState);
+        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
+        return;
+      }
+
+      List<Board> possibleStates = currentState.generateStates();
+
+      for (Board state in possibleStates) {
+        if (!visited.contains(state)) {
+          queue.add(state);
+          visited.add(state);
+        }
+      }
+      i++;
+    }
+    print("this shouldn't print");
   }
 
   void bfs() async {

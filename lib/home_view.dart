@@ -117,6 +117,46 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                   },
                 ),
               ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 6"),
+                  onTap: () {
+                    hC.selectLevel(six);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 7"),
+                  onTap: () {
+                    hC.selectLevel(seven);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 9"),
+                  onTap: () {
+                    hC.selectLevel(nine);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 10"),
+                  onTap: () {
+                    hC.selectLevel(ten);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 12"),
+                  onTap: () {
+                    hC.selectLevel(twelve);
+                  },
+                ),
+              ),
             ],
           ),
           IconButton(
@@ -140,7 +180,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                   children: [
                     SizedBox(
                       height: 300,
-                      width: 240,
+                      width: 320,
                       child: ListView.builder(
                         scrollDirection: Axis.vertical,
                         itemCount: hC.currentBoard.cells.length,
