@@ -17,6 +17,7 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
+      cost: countWhite(selectedLevel),
     );
     super.onInit();
   }
@@ -25,6 +26,7 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
+      cost: countWhite(selectedLevel),
     );
     update();
   }
@@ -42,8 +44,8 @@ class HomeController extends GetxController {
     if (currentBoard.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
-  void aStar() async {
-    PriorityQueue<Board> queue = PriorityQueue((a, b) => b.cost.compareTo(a.cost));
+  void ucs() async {
+    PriorityQueue<Board> queue = PriorityQueue((a, b) => a.cost.compareTo(b.cost));
     Set<Board> visited = {};
     int i = 0; // counter
 
@@ -53,14 +55,18 @@ class HomeController extends GetxController {
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
 
-      print("A* running, current state:");
+      print("ucs running, current state:");
       currentState.printBoard();
 
       //if all white cells are eliminated, show the result and return
       if (currentState.isGoalState()) {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
         await createPath(currentState);
-        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
+        Get.defaultDialog(
+          title: "success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
+              " path cost = ${(currentState.cost) * (currentState.cost - 1) / 2}",
+        );
         return;
       }
 
@@ -95,7 +101,10 @@ class HomeController extends GetxController {
       if (currentState.isGoalState()) {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
         await createPath(currentState);
-        Get.defaultDialog(title: "success", middleText: "after $i iterations\ndepth = ${currentState.depth}");
+        Get.defaultDialog(
+          title: "success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}",
+        );
         return;
       }
 
@@ -104,9 +113,10 @@ class HomeController extends GetxController {
       for (Board state in possibleStates) {
         if (!visited.contains(state)) {
           queue.add(state);
-          visited.add(state);
+          visited.add(state); // todo: should this be in while{} ?
         }
       }
+      //visited.add(currentState);
       i++;
     }
     print("this shouldn't print");
@@ -130,7 +140,9 @@ class HomeController extends GetxController {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
         await createPath(currentState);
         Get.defaultDialog(
-            title: "success", middleText: "after $i states (num of visits), depth = ${currentState.depth}");
+          title: "success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}",
+        );
         return;
       }
 

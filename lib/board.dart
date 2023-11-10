@@ -1,10 +1,12 @@
+import 'package:algo_lab/levels.dart';
+
 class Board {
   List<List<String>> cells;
   Board? parent;
-  int cost = 0;
+  int cost;
   int depth;
 
-  Board({required this.cells, this.parent, required this.depth});
+  Board({required this.cells, this.parent, required this.depth, required this.cost});
 
   // print current state
   void printBoard() {
@@ -42,7 +44,12 @@ class Board {
     _flipAdjacentCell(x + 1, y, copied);
     _flipAdjacentCell(x, y - 1, copied);
     _flipAdjacentCell(x, y + 1, copied);
-    return Board(cells: copied, parent: this, depth: depth + 1);
+    return Board(
+      cells: copied,
+      parent: this,
+      depth: depth + 1,
+      cost: countWhite(copied),
+    );
   }
 
   // helper method to flip all 4 adjacent cells (of the new state)

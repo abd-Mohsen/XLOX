@@ -24,6 +24,14 @@ List<List<String>> three = [
   ["#", "#", "#"],
 ];
 
+List<List<String>> four = [
+  ["#", "#", "#", "#", "#"],
+  ["#", " ", " ", " ", "#"],
+  ["#", " ", "#", " ", "#"],
+  ["#", "@", "#", "@", "#"],
+  ["#", "#", "#", "#", "#"],
+];
+
 List<List<String>> six = [
   ['#', '#', '#', '#', '#', '#', '#'],
   ['#', ' ', ' ', ' ', ' ', ' ', '#'],
@@ -80,4 +88,16 @@ List<List<String>> getLevel(List<List<String>> level) {
     copied.add(temp);
   }
   return copied;
+}
+
+int countWhite(List<List<String>> cells) {
+  int count = 0;
+
+  for (List<String> row in cells) {
+    for (String cell in row) {
+      if (cell == '@') count++;
+    }
+  }
+
+  return count;
 }

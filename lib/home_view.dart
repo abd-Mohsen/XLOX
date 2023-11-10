@@ -44,6 +44,16 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
       floatingActionButton: FloatingActionBubble(
         items: <Bubble>[
           Bubble(
+            title: "BFS",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.search_rounded,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              hC.bfs();
+            },
+          ),
+          Bubble(
             title: "DFS",
             iconColor: Colors.white,
             bubbleColor: Colors.blue,
@@ -54,13 +64,13 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
             },
           ),
           Bubble(
-            title: "BFS",
+            title: "UCS",
             iconColor: Colors.white,
             bubbleColor: Colors.blue,
-            icon: Icons.search_rounded,
+            icon: Icons.search,
             titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
             onPress: () {
-              hC.bfs();
+              hC.ucs();
             },
           ),
         ],
@@ -114,6 +124,14 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
                   title: Text("level 3"),
                   onTap: () {
                     hC.selectLevel(three);
+                  },
+                ),
+              ),
+              PopupMenuItem(
+                child: ListTile(
+                  title: Text("level 4"),
+                  onTap: () {
+                    hC.selectLevel(four);
                   },
                 ),
               ),
