@@ -45,11 +45,11 @@ class HomeController extends GetxController {
   }
 
   void ucs() async {
-    PriorityQueue<Board> queue = PriorityQueue((a, b) => a.cost.compareTo(b.cost));
+    PriorityQueue<Board> queue = PriorityQueue((a, b) => a.cost.compareTo(b.cost)); // min heap
     Set<Board> visited = {};
     int i = 0; // counter
 
-    queue.add(currentBoard); //board is initial state
+    queue.add(currentBoard);
     visited.add(currentBoard);
 
     while (queue.isNotEmpty) {
@@ -58,14 +58,13 @@ class HomeController extends GetxController {
       print("ucs running, current state:");
       currentState.printBoard();
 
-      //if all white cells are eliminated, show the result and return
       if (currentState.isGoalState()) {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
-        await createPath(currentState);
+        int pathCost = await createPath(currentState);
         Get.defaultDialog(
-          title: "success",
+          title: "UCS success",
           middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
-              " path cost = ${(currentState.cost) * (currentState.cost - 1) / 2}",
+              "path cost = $pathCost",
         );
         return;
       }
@@ -100,10 +99,11 @@ class HomeController extends GetxController {
       //if all white cells are eliminated, show the result and return
       if (currentState.isGoalState()) {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
-        await createPath(currentState);
+        int pathCost = await createPath(currentState);
         Get.defaultDialog(
-          title: "success",
-          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}",
+          title: "BFS success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
+              "path cost = $pathCost",
         );
         return;
       }
@@ -113,10 +113,9 @@ class HomeController extends GetxController {
       for (Board state in possibleStates) {
         if (!visited.contains(state)) {
           queue.add(state);
-          visited.add(state); // todo: should this be in while{} ?
+          visited.add(state);
         }
       }
-      //visited.add(currentState);
       i++;
     }
     print("this shouldn't print");
@@ -138,10 +137,11 @@ class HomeController extends GetxController {
 
       if (currentState.isGoalState()) {
         print("success, after $i states (num of visits), depth = ${currentState.depth}");
-        await createPath(currentState);
+        int pathCost = await createPath(currentState);
         Get.defaultDialog(
-          title: "success",
-          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}",
+          title: "DFS success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
+              "path cost = $pathCost",
         );
         return;
       }
@@ -159,7 +159,7 @@ class HomeController extends GetxController {
     print("this shouldn't print");
   }
 
-  Future<List<Board>> createPath(Board board) async {
+  Future<int> createPath(Board board) async {
     List<Board> path = [];
     Board? curr = board;
 
@@ -169,13 +169,15 @@ class HomeController extends GetxController {
     }
     List<Board> res = path.reversed.toList();
 
+    int pathCost = 0;
     for (int i = 0; i < res.length; i++) {
       print(i);
       res[i].printBoard();
       await Future.delayed(Duration(milliseconds: 400));
+      pathCost += res[i].cost;
       currentBoard = res[i];
       update();
     }
-    return res;
+    return pathCost;
   }
 }
