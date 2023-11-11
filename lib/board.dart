@@ -48,7 +48,7 @@ class Board {
       cells: copied,
       parent: this,
       depth: depth + 1,
-      cost: countWhite(copied),
+      cost: countWhites(copied),
     );
   }
 

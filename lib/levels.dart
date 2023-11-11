@@ -90,7 +90,7 @@ List<List<String>> getLevel(List<List<String>> level) {
   return copied;
 }
 
-int countWhite(List<List<String>> cells) {
+int countWhites(List<List<String>> cells) {
   int count = 0;
 
   for (List<String> row in cells) {

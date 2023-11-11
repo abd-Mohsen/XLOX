@@ -17,7 +17,7 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
-      cost: countWhite(selectedLevel),
+      cost: countWhites(selectedLevel),
     );
     super.onInit();
   }
@@ -26,7 +26,7 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
-      cost: countWhite(selectedLevel),
+      cost: countWhites(selectedLevel),
     );
     update();
   }
