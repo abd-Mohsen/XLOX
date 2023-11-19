@@ -73,6 +73,26 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
               hC.ucs();
             },
           ),
+          Bubble(
+            title: "HILL CLIMBING",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.search,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              hC.hillClimbing();
+            },
+          ),
+          Bubble(
+            title: "HILL CLIMBING v2",
+            iconColor: Colors.white,
+            bubbleColor: Colors.blue,
+            icon: Icons.search,
+            titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
+            onPress: () {
+              hC.hillClimbingV2();
+            },
+          ),
         ],
         onPress: () =>
             _animationController.isCompleted ? _animationController.reverse() : _animationController.forward(),

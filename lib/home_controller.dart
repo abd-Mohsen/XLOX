@@ -17,7 +17,8 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
-      cost: countWhites(selectedLevel),
+      heuristic: countWhites(selectedLevel),
+      cost: 1,
     );
     super.onInit();
   }
@@ -26,7 +27,8 @@ class HomeController extends GetxController {
     currentBoard = Board(
       cells: getLevel(selectedLevel),
       depth: 0,
-      cost: countWhites(selectedLevel),
+      heuristic: countWhites(selectedLevel),
+      cost: 1,
     );
     update();
   }
@@ -44,6 +46,84 @@ class HomeController extends GetxController {
     if (currentBoard.isGoalState()) Get.defaultDialog(title: "success", middleText: "you won");
   }
 
+  void hillClimbing() async {
+    PriorityQueue<Board> queue = PriorityQueue((a, b) => a.heuristic.compareTo(b.heuristic)); // min heap
+    Set<Board> visited = {};
+    int i = 0; // counter
+
+    queue.add(currentBoard);
+    visited.add(currentBoard);
+
+    while (queue.isNotEmpty) {
+      Board currentState = queue.removeFirst();
+
+      print("hill climbing running, current state:");
+      currentState.printBoard();
+
+      if (currentState.isGoalState()) {
+        print("success, after $i states (num of visits), depth = ${currentState.depth}");
+        int pathCost = await createPath(currentState);
+        Get.defaultDialog(
+          title: "HILL CLIMBING success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
+              "path cost = $pathCost\n generated states = ${visited.length + queue.length}\n",
+        );
+        return;
+      }
+
+      List<Board> possibleStates = currentState.generateStates();
+
+      for (Board state in possibleStates) {
+        if (!visited.contains(state)) {
+          queue.add(state);
+          visited.add(state);
+        }
+      }
+      i++;
+    }
+    print("this shouldn't print");
+  }
+
+  void hillClimbingV2() async {
+    PriorityQueue<Board> queue = PriorityQueue((a, b) => a.heuristic.compareTo(b.heuristic)); // min heap
+    Set<Board> visited = {};
+    int i = 0; // counter
+
+    queue.add(currentBoard);
+
+    while (queue.isNotEmpty) {
+      Board currentState = queue.removeFirst();
+
+      if (visited.contains(currentState)) continue;
+
+      visited.add(currentState);
+
+      print("hill climbing running, current state:");
+      currentState.printBoard();
+
+      if (currentState.isGoalState()) {
+        print("success, after $i states (num of visits), depth = ${currentState.depth}");
+        int pathCost = await createPath(currentState);
+        Get.defaultDialog(
+          title: "HILL CLIMBING success",
+          middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
+              "path cost = $pathCost\n generated states = ${visited.length + queue.length}\n",
+        );
+        return;
+      }
+
+      List<Board> possibleStates = currentState.generateStates();
+
+      for (Board state in possibleStates) {
+        if (!visited.contains(state)) {
+          queue.add(state);
+        }
+      }
+      i++;
+    }
+    print("this shouldn't print");
+  }
+
   void ucs() async {
     PriorityQueue<Board> queue = PriorityQueue((a, b) => a.cost.compareTo(b.cost)); // min heap
     Set<Board> visited = {};
@@ -55,7 +135,7 @@ class HomeController extends GetxController {
     while (queue.isNotEmpty) {
       Board currentState = queue.removeFirst();
 
-      print("ucs running, current state:");
+      print("UCS running, current state:");
       currentState.printBoard();
 
       if (currentState.isGoalState()) {
@@ -64,7 +144,7 @@ class HomeController extends GetxController {
         Get.defaultDialog(
           title: "UCS success",
           middleText: "after $i attempts\n\n ${visited.length} visited nodes\n depth = ${currentState.depth}\n"
-              "path cost = $pathCost",
+              "path cost = $pathCost\n generated states = ${visited.length + queue.length}\n",
         );
         return;
       }
@@ -174,7 +254,7 @@ class HomeController extends GetxController {
       print(i);
       res[i].printBoard();
       await Future.delayed(Duration(milliseconds: 400));
-      pathCost += res[i].cost;
+      pathCost += res[i].cost; // todo: what is path cost ? is it related to heuristic ?
       currentBoard = res[i];
       update();
     }

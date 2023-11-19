@@ -5,8 +5,9 @@ class Board {
   Board? parent;
   int cost;
   int depth;
+  int heuristic;
 
-  Board({required this.cells, this.parent, required this.depth, required this.cost});
+  Board({required this.cells, this.parent, required this.depth, required this.cost, required this.heuristic});
 
   // print current state
   void printBoard() {
@@ -48,7 +49,8 @@ class Board {
       cells: copied,
       parent: this,
       depth: depth + 1,
-      cost: countWhites(copied),
+      cost: 1,
+      heuristic: countWhites(copied),
     );
   }
 
