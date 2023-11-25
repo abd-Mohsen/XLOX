@@ -70,7 +70,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
             icon: Icons.search,
             titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
             onPress: () {
-              hC.ucs();
+              hC.ucsV2();
             },
           ),
           Bubble(
@@ -80,17 +80,17 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
             icon: Icons.search,
             titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
             onPress: () {
-              hC.hillClimbing();
+              hC.hillClimbingV2();
             },
           ),
           Bubble(
-            title: "HILL CLIMBING v2",
+            title: "A*",
             iconColor: Colors.white,
             bubbleColor: Colors.blue,
             icon: Icons.search,
             titleStyle: const TextStyle(fontSize: 16, color: Colors.white),
             onPress: () {
-              hC.hillClimbingV2();
+              hC.aStar();
             },
           ),
         ],
@@ -122,6 +122,7 @@ class _HomeViewState extends State<HomeView> with SingleTickerProviderStateMixin
             tooltip: "choose level",
             icon: Icon(Icons.leaderboard),
             position: PopupMenuPosition.under,
+            onSelected: (smth) => Get.back(), //not working
             itemBuilder: (context) => [
               PopupMenuItem(
                 child: ListTile(

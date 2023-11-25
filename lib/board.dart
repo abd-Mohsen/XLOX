@@ -40,24 +40,32 @@ class Board {
     }
 
     if (copied[x][y] != '@' || !_inRange(x, y)) return null;
+    int newCost = 0;
     copied[x][y] = ' ';
-    _flipAdjacentCell(x - 1, y, copied);
-    _flipAdjacentCell(x + 1, y, copied);
-    _flipAdjacentCell(x, y - 1, copied);
-    _flipAdjacentCell(x, y + 1, copied);
+    newCost += _flipAdjacentCell(x - 1, y, copied);
+    newCost += _flipAdjacentCell(x + 1, y, copied);
+    newCost += _flipAdjacentCell(x, y - 1, copied);
+    newCost += _flipAdjacentCell(x, y + 1, copied);
     return Board(
       cells: copied,
       parent: this,
       depth: depth + 1,
-      cost: 1,
+      cost: cost + 1,
       heuristic: countWhites(copied),
     );
   }
 
   // helper method to flip all 4 adjacent cells (of the new state)
-  void _flipAdjacentCell(int x, int y, List<List<String>> copied) {
-    if (copied[x][y] == '#' || !_inRange(x, y)) return;
-    copied[x][y] == '@' ? copied[x][y] = ' ' : copied[x][y] = '@';
+  int _flipAdjacentCell(int x, int y, List<List<String>> copied) {
+    if (copied[x][y] == '#' || !_inRange(x, y)) return 0;
+    //copied[x][y] == '@' ? copied[x][y] = ' ' : copied[x][y] = '@';
+    if (copied[x][y] == '@') {
+      copied[x][y] = ' ';
+      return 2;
+    } else {
+      copied[x][y] = '@';
+      return 1;
+    }
   }
 
   // edit the current state by letting user click on a white cell
