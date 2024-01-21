@@ -19,11 +19,11 @@ computer solve it for us.
 
 implemented several state space search algorithms (informed and uninformed) in order to reach final state for a given grid.
 
-- *Depth First search (DFS) :* we use a stack or a recursive method to generate all possible next state for the current state and traverse them.
-- *Breadth First search (BFS) :* we use a queue or to generate all possible next state for the current state and traverse them.
-- *Uniform Cost Search (UCS) :* similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their cost.
-- *Hill climbing :* similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their heuristic value.
-  *A\* (A star) :* similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their heuristic value + cost.
+- **Depth First search (DFS) :** we use a stack or a recursive method to generate all possible next state for the current state and traverse them.
+- **Breadth First search (BFS) :** we use a queue or to generate all possible next state for the current state and traverse them.
+- **Uniform Cost Search (UCS) :** similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their cost.
+- **Hill climbing :** similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their heuristic value.
+- **A\* (A star) :** similar to bfs , but we use a min heap (priority queue) to sort the states efficiently based on their heuristic value + cost.
 
 ## Results
 
