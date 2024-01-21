@@ -30,6 +30,7 @@ implemented several state space search algorithms (informed and uninformed) in o
 - some levels are impossible to solve using uninformed search algorithms.
 - using a good heuristic value can make a huge difference.
 
+##
 This game was developed as an assignment for a course at Damascus university. The assignment is aimed to demonstrate proficiency in implementing 
 search algorithms on a real world problem.
 
