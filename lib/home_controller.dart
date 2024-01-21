@@ -305,7 +305,16 @@ class HomeController extends GetxController {
       List<Board> possibleStates = currentState.generateStates();
 
       for (Board state in possibleStates) {
-        if (!visited.contains(state)) queue.add(state);
+        if (!visited.contains(state)) {
+          queue.add(state);
+        } else {
+          // replace with lower heuristic
+          Board visitedState = visited.firstWhere((ogState) => ogState == state);
+          if ((state.heuristic + state.cost) < (visitedState.heuristic + visitedState.cost)) {
+            visited.remove(visitedState);
+            queue.add(state);
+          }
+        }
       }
       i++;
     }
